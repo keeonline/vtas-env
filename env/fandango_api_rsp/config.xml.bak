@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfg:environmentConfig name="hyosung_api_rsp" xmlns:cfg="http://ascert.com/vtas/config">
+  <cfg:vtmpInstance>
+    <cfg:id>vtmp.1</cfg:id>
+    <cfg:profile>vtmp.1</cfg:profile>
+    <cfg:vtmpHome>${vtmp.home}</cfg:vtmpHome>
+    <cfg:vmonAddress>127.0.0.1</cfg:vmonAddress>
+    <cfg:vmonPort>8082</cfg:vmonPort>
+    <cfg:JVMOpts>-Xmx800m</cfg:JVMOpts>
+  </cfg:vtmpInstance>
+  <cfg:testPack id="com.ascert.driver.hyosung_atm_testpack" version="1.0.0"/>
+  <cfg:drivers>
+    <cfg:driverInstance name="fandango_api_rsp1" logicalName="json_drv" id="com.ascert.driver.json" version="1.0.0" mode="basic">
+      <cfg:catalog>
+        <cfg:file logicalName="open_api_def" type="vt-import">
+          <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/resources/hyosung_atm_api.json"/>
+        </cfg:file>
+        <cfg:file logicalName="txn_types" type="vt-import">
+          <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/json.TxnTypes.csv"/>
+        </cfg:file>
+        <cfg:file logicalName="account_details" type="vtas-nds">
+          <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/account_details.csv"/>
+        </cfg:file>
+        <cfg:file logicalName="merchant_data" type="vtas-nds">
+          <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/terminal_data.csv"/>
+        </cfg:file>
+        <cfg:file logicalName="keystore" type="vt-import">
+          <cfg:map resource="${scripts.local}/security/resources/keystore.jks"/>
+        </cfg:file>
+        <cfg:file logicalName="station_data" type="vtas-nds">
+          <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/station_data_rsp.csv"/>
+        </cfg:file>
+      </cfg:catalog>
+      <cfg:rt_props>
+        <cfg:property name="vt.env.param.drv.station.pattern" value="SESS"/>
+        <cfg:property name="vt.env.param.drv.single.thread.txn" value="Y"/>
+        <cfg:property name="vt.env.param.drv.ext.field.log.level" value="4"/>
+        <cfg:property name="vt.comms.config.after_connect" value="dfs__ioh_mark_up"/>
+        <cfg:property name="vt.comms.config.after_disconnect" value="dfs__ioh_mark_down"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.polarity" value="server"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.local_port" value="12221"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.managed" value="on"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.message_length" value="content_length"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.security.protocol" value="tlsv1.2"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.security.client_auth" value="requested"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.security.trust_strategy" value="self_signed"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.security.key_store" value="=keystore,testtest,testtest"/>
+        <cfg:property name="vt.comms.config.http.HTTP_SERVER.session.1" value="sess00000"/>
+      </cfg:rt_props>
+    </cfg:driverInstance>
+    <cfg:driverControl>
+      <cfg:start>
+        <cfg:drvId>fandango_api_rsp1</cfg:drvId>
+      </cfg:start>
+      <cfg:stop/>
+    </cfg:driverControl>
+  </cfg:drivers>
+  <cfg:rt_props>
+    <cfg:property name="tas.always_use_driver_for_field_ref" value="true"/>
+    <cfg:property name="tas.vtmp_timeout" value="480"/>
+  </cfg:rt_props>
+  <cfg:catalog>
+    <cfg:file logicalName="base_templates.1" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${json.version}/data/json.http.common.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.2" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/hyosung_api.http.header.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.3" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/hyosung_api.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.4" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/hyosung_api.emv.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_init.1" type="vtas-test-init">
+      <cfg:map resource="${scripts.base}/${json.version}/data/json.common.testcases.init.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_init.2" type="vtas-test-init">
+      <cfg:map resource="${scripts.base}/${json.version}/data/start.station.testcases.init.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_init.3" type="vtas-test-init">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/responder.base.testcases.init.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_init.4" type="vtas-test-init">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/responder.auto.schedule.testcases.init.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.1" type="vtas-test-case">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/responder.testcases.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="field_alias" type="vtas-alias">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/field_alias.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="station_data" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/station_data_rsp.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="merchant_data" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/merchant_data.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="account_details" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/account_details.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="driver_txn_types" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/json.TxnTypes.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="json_msgs" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/jsonexamples.properties"/>
+    </cfg:file>
+    <cfg:file logicalName="card_data" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${hyosung_atm_testpack.version}/data/card_data.csv"/>
+    </cfg:file>
+  </cfg:catalog>
+  <cfg:colections/>
+</cfg:environmentConfig>

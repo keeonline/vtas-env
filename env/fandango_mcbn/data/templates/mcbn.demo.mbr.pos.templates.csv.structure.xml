@@ -1,0 +1,6 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="zz__mcbnmbr_demo_0110_rs"/>
+    <ta:item name="zz__mcbnmbr_demo_0110_auth_rs"/>
+    <ta:item name="zz__mcbnmbr_demo_pos_rs"/>
+    <ta:item name="mcbnmbr_demo_pos_np_cnp_rs"/>
+</ta:file_structure>

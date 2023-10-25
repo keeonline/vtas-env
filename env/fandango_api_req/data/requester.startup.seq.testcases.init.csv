@@ -1,0 +1,2 @@
+test,step,testAction,station,driver,linkedMsg,valRules,genRules,matchRules,flags
+INIT.JSON.DRV.STARTUP_SEQUENCE,1,EVAL,,fandango_api_req1,,,,,NO_LOG_PASS

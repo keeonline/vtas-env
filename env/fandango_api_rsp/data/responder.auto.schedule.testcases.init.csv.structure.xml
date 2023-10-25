@@ -1,0 +1,4 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="INIT.JSON.AUTO.SCHEDULE_ALL"/>
+    <ta:item name="RECEIVE.PAYMENT_REQUEST_AUTO"/>
+</ta:file_structure>

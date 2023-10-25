@@ -1,0 +1,11 @@
+test,step,testAction,station,driver,linkedMsg,valRules,genRules,matchRules,flags
+SEND.PAYMENT_REQUEST_APPROVED,1,CREATE_NDS(CSV_RANDOM_ROW;'card';LOCAL;=card_data;),,,,,,,
+SEND.PAYMENT_REQUEST_APPROVED,3,CREATE_NDS(PROPERTY_FILE;'json_msg';LOCAL;=json_msgs;),,,,,,,
+SEND.PAYMENT_REQUEST_APPROVED,4,SEND(payment_request;),POST,fandango_api_req1,,,api_def.body.cardAcceptorTerminalIdentification := 'ABCDEF00'|,,
+SEND.PAYMENT_REQUEST_APPROVED,5,EXPECT(payment_response;5000;),linked[0]::$SESSION,fandango_api_req1,4;,,,$SESSION|,
+SEND.PAYMENT_REQUEST_APPROVED,5,,,,,,,api_def.body.systemTraceAuditNumber = linked[0]::api_def.body.systemTraceAuditNumber|,
+SEND.PAYMENT_REQUEST_DECLINED,1,CREATE_NDS(CSV_RANDOM_ROW;'card';LOCAL;=card_data;),,,,,,,
+SEND.PAYMENT_REQUEST_DECLINED,3,CREATE_NDS(PROPERTY_FILE;'json_msg';LOCAL;=json_msgs;),,,,,,,
+SEND.PAYMENT_REQUEST_DECLINED,4,SEND(payment_request;),POST,fandango_api_req1,,,api_def.body.cardAcceptorTerminalIdentification := 'ABCDEF99'|,,
+SEND.PAYMENT_REQUEST_DECLINED,5,EXPECT(payment_response;5000;),linked[0]::$SESSION,fandango_api_req1,4;,,,$SESSION|,
+SEND.PAYMENT_REQUEST_DECLINED,5,,,,,,,api_def.body.systemTraceAuditNumber = linked[0]::api_def.body.systemTraceAuditNumber|,

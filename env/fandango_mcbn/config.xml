@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfg:environmentConfig name="fandango_mcbn" xmlns:cfg="http://ascert.com/vtas/config">
+  <cfg:vtmpInstance>
+    <cfg:id>vtmp.1</cfg:id>
+    <cfg:profile>vtmp.10080</cfg:profile>
+    <cfg:vtmpHome>${vtmp.home}</cfg:vtmpHome>
+    <cfg:vmonAddress>127.0.0.1</cfg:vmonAddress>
+    <cfg:vmonPort>10080</cfg:vmonPort>
+    <cfg:JVMOpts>-Xmx400m</cfg:JVMOpts>
+  </cfg:vtmpInstance>
+  <cfg:drivers>
+    <cfg:driverInstance name="mcbn_sys" id="com.ascert.driver.mcbn" version="1.9.0" mode="sys">
+      <cfg:vtmpId>vtmp.1</cfg:vtmpId>
+      <cfg:catalog/>
+      <cfg:rt_props>
+        <cfg:property name="vt.comms.config.after_connect" value="dfs__ioh_mark_up"/>
+        <cfg:property name="vt.comms.config.after_disconnect" value="dfs__ioh_mark_down"/>
+        <cfg:property name="vt.comms.config.tcpip.mcbn_server.polarity" value="server"/>
+        <cfg:property name="vt.comms.config.tcpip.mcbn_server.local_port" value="11000"/>
+        <cfg:property name="vt.comms.config.tcpip.mcbn_server.framing.length_field" value="int16"/>
+        <cfg:property name="vt.comms.config.tcpip.mcbn_server.framing.length_prepend" value="true"/>
+        <cfg:property name="vt.comms.config.tcpip.mcbn_server.framing.length_adjust" value="2"/>
+        <cfg:property name="vt.comms.config.tcpip.mcbn_server.framing.timeout_value" value="100"/>
+        <cfg:property name="vt.comms.config.tcpip.mcbn_server.session.1" value="mcbn00000"/>
+      </cfg:rt_props>
+    </cfg:driverInstance>
+    <cfg:driverControl>
+      <cfg:start>
+        <cfg:drvId>mcbn_sys</cfg:drvId>
+      </cfg:start>
+      <cfg:stop/>
+    </cfg:driverControl>
+  </cfg:drivers>
+  <cfg:rt_props/>
+  <cfg:catalog>
+    <cfg:file logicalName="base_templates.1" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.ntwk.mbr.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.2" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.ntwk.sys.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.3" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.txn.mbr.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.4" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.txn.sys.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.5" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.emv.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.6" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.atm.mbr.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.7" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.atm.sys.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.8" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.pos.mbr.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.9" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.pos.sys.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.10" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.pos.mbr.mag.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.11" type="vtas-base-template">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.pos.sys.mag.base_templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.12" type="vtas-base-template">
+      <cfg:map resource="${dir.env}/${env.name}/data/templates/mcbn.demo.sys.pos.templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="base_templates.13" type="vtas-base-template">
+      <cfg:map resource="${dir.env}/${env.name}/data/templates/mcbn.demo.mbr.pos.templates.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.1" type="vtas-test-case" init="true">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.sys.base.testcases.init.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.2" type="vtas-test-case" init="true">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.sys.acq.testcases.init.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.3" type="vtas-test-case" init="true">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.sys.iss.testcases.init.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.4" type="vtas-test-case" init="true">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.sys.control.testcases.init.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.6" type="vtas-test-case">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.ntwk.sys.testcases.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.7" type="vtas-test-case">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.atm.sys.iss.testcases.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.8" type="vtas-test-case">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.atm.sys.acq.testcases.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.9" type="vtas-test-case">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.pos.sys.iss.testcases.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.10" type="vtas-test-case">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.pos.sys.acq.testcases.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="test_cases.11" type="vtas-test-case">
+      <cfg:map resource="${dir.env}/${env.name}/data/testcases/mcbn.demo.testcases.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="cards_mag" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.cards.mag.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="cards_emv" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.cards.emv.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="emv_applications" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.emv.applications.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="currency" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.currency.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="mcbn_driver_attribs" type="vtas-nds">
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.DriverAttribs.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="mcbn_constants" type="vtas-nds">
+      <cfg:description>Definition of MCBN field constant values</cfg:description>
+      <cfg:map resource="${scripts.base}/${mcbn.version}/data/mcbn.constants.properties"/>
+    </cfg:file>
+    <cfg:file logicalName="mcbn_cards" type="vtas-nds">
+      <cfg:map resource="${dir.env}/${env.name}/data/cards/mcbn.demo.cards.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="mcbn_terminals" type="vtas-nds">
+      <cfg:map resource="${dir.env}/${env.name}/data/terminals/mcbn.demo.terminals.csv"/>
+    </cfg:file>
+    <cfg:file logicalName="mcbn_transactions" type="vtas-nds">
+      <cfg:map resource="${dir.env}/${env.name}/data/transactions/mcbn.demo.transactions.csv"/>
+    </cfg:file>
+  </cfg:catalog>
+</cfg:environmentConfig>

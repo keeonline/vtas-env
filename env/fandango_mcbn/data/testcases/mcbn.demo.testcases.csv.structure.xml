@@ -1,0 +1,4 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="MCBN.DEMO.PURCHASE.KEYED.APPROVED"/>
+    <ta:item name="MCBN.DEMO.PURCHASE.KEYED.DECLINED"/>
+</ta:file_structure>

@@ -1,0 +1,4 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="INIT.JSON.DRIVER"/>
+    <ta:item name="DRV.BASE.TEST_CLEAN"/>
+</ta:file_structure>

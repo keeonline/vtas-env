@@ -1,0 +1,3 @@
+id,name,sort_code,account_num,secondary_id,iban,account_id,currency,account_balance,debit_amount,debit_currency,forex,debit_x_amount,pay_from_account,auth_code,auth_num
+1,ACME Inc,080800,21325698,1015,iban,MAIN,GBP,2000.00,1000.23,GBP,1.0,1000.23,1234567890,824748,100148
+1,ACME Inc (Euro),080800,23455432,1015,iban,MAIN,EUR,10000.00,333.33,GBP,1.10,499.99,9876543219,824748,100148

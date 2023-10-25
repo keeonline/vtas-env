@@ -1,0 +1,96 @@
+txnName,logicalTxnName,refMsg,valRules,genRules,matchRules,flags
+!RULESET:
+!EMV initialisation
+zz__hyosung_api_emv_init,__RULESET__,,,$EMV_RESET_VAL|,,
+zz__hyosung_api_emv_init,__RULESET__,,$EMV_RESET_VAL|,,,
+!RULESET:
+!Set initial EMV values for request
+!Generation rule requirements:
+! - NDS card['EMV_PAN_SEQ']
+! - NDS card['TRACK2']
+zz__hyosung_api_emv_init_req,__RULESET__,,,$EMV_SET_VAL('PAN_SEQ_NUM'; $NUM_RESIZE(card['EMV_PAN_SEQ']; '2'))|,,
+zz__hyosung_api_emv_init_req,__RULESET__,,,$EMV_SET_VAL('TRACK2'; $EMV_FMT_TRACK2_EQUIV(card['TRACK2_EMV']))|,,
+zz__hyosung_api_emv_init_req,__RULESET__,,$EMV_SET_VAL('OTHER_AMT'; $NUM_RESIZE('0'; '12'))|,,,
+zz__hyosung_api_emv_init_req,__RULESET__,,$EMV_SET_FROM_BER_TLV_LIST($BINARY_TO_HEX(api_def.body.transactionData.emvData))|,,,
+zz__hyosung_api_emv_init_req,__RULESET__,,$EMV_SET_VAL('TRACK2'; $EMV_FMT_TRACK2_EQUIV(api_def.body.transactionData.track2Data))|,,,
+!RULESET:
+!Set EMV transaction values for request
+!Generation rule requirements:
+! - NDS card['EMV_ATC']
+! - NDS card['PAN']
+! - NDS card['TRACK2']
+! - NDS cenx_reno_sw_driver['CCY']
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('ATC'; $NUM_RESIZE(card['EMV_ATC']; '4'; '16'))|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('CID'; '80')|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('AIP'; '5C00')|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('PAN'; card['PAN'])|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,^emvsetiad $EMV_SET_VAL('IAD'; $EMV_FMT_IAD(card['TRACK2']))|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('TERM_CC'; $NUM_RESIZE('826'; '4'))|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('TERM_TYPE'; '14')|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('TVR'; '8080040000')|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('TRAN_CC'; $NUM_RESIZE('826'; '4'))|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('UNPREDICTABLE_NUMBER'; card['TAG.9F37'])|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('TRAN_DATE'; $CURR_DATE_TIME('%C%M%D'))|,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,,,,
+!@ruleDesc Use the last bit of the request GUID as the ARQC to aid in the tracking of messages into the Reno driver side
+zz__hyosung_api_emv_txn_req,__RULESET__,,,$EMV_SET_VAL('ARQC'; $PAD($PARTIAL(api_def.body.requestGuid; '24'; '12'); '16'; '0'; 'L'))|,,FINAL
+zz__hyosung_api_emv_txn_req,__RULESET__,,$EMV_CHECK_BER_TLV_LIST(api_def.body.transactionData.emvData; $CONCAT('9F26'; '9F10'; '9F27'; '9F37'; '9F36'; '95'; '9A'; '9C'; '9F02'; '5F2A'; '82'; '9F1A'; '9F33'; '9F34'; '9F35'); $CONCAT('8A'; '5F34'; '9F03'; '9F0A'; '9535'; '9F1E'; '9F53'; '9F09'; '9F41'; '9F6E'))|,,,
+zz__hyosung_api_emv_txn_req,__RULESET__,,$EMV_ARQC('CREATE') = $EMV_GET_VAL('ARQC')|,,,FINAL
+!RULESET:
+!Set initial EMV values for response
+!Generation rule requirements:
+!  LINKED[0] is original transaction request
+!Validation rule requirements:
+!  LINKED[0] is original transaction request
+zz__hyosung_api_emv_init_rsp,__RULESET__,,,$EMV_SET_VAL('TRACK2'; $EMV_FMT_TRACK2_EQUIV(linked[0]::api_def.body.transactionData.track2Data))|,,
+zz__hyosung_api_emv_init_rsp,__RULESET__,,,$EMV_SET_VAL('PAN_SEQ_NUM'; '00')|,,
+zz__hyosung_api_emv_init_rsp,__RULESET__,,,$EMV_SET_FROM_BER_TLV_LIST(linked[0]::api_def.body.transactionData.emvData)|,,
+zz__hyosung_api_emv_init_rsp,__RULESET__,,$EMV_SET_FROM_BER_TLV_LIST(linked[0]::api_def.body.transactionData.emvData)|,,,
+zz__hyosung_api_emv_init_rsp,__RULESET__,,$EMV_SET_FROM_BER_TLV_LIST(api_def.body.transactionData.emvData)|,,,
+zz__hyosung_api_emv_init_rsp,__RULESET__,,$EMV_SET_VAL('TRACK2'; $EMV_FMT_TRACK2_EQUIV(linked[0]::api_def.body.transactionData.track2Data))|,,,
+!RULESET:
+!Set EMV transaction values for response
+!Validation rule requirements:
+! - NDS card['EMV_RESP']
+zz__hyosung_api_emv_txn_rsp,__RULESET__,,,$EMV_SET_VAL('ISS_AUTH_ARC'; card['EMV_RESP'])|,,FINAL
+zz__hyosung_api_emv_txn_rsp,__RULESET__,,,$EMV_SET_VAL('8A'; $PAD(card['RESP']; '2'; '0'; 'L'))|,,
+zz__hyosung_api_emv_txn_rsp,__RULESET__,,,$EMV_SET_VAL('91'; $EMV_ARPC('CREATE_IAuD'))|,,FINAL
+zz__hyosung_api_emv_txn_rsp,__RULESET__,,$EMV_CHECK_BER_TLV_LIST(api_def.body.transactionData.emvData; ''; $CONCAT('91'; '71'; '72'; '8A'))|,,,
+zz__hyosung_api_emv_txn_rsp,__RULESET__,,$EMV_SET_VAL('ARC'; $HEX_TO_BINARY($EMV_GET_VAL('ISS_AUTH_ARC')))|,,,
+zz__hyosung_api_emv_txn_rsp,__RULESET__,,$ANY_OF($EMV_GET_VAL('ISS_AUTH_ARC'); card['EMV_RESP'])|,,,
+zz__hyosung_api_emv_txn_rsp,__RULESET__,,^emvarpccheck $EMV_ARPC('CHECK')|,,,
+zz__hyosung_api_emv_txn_rsp,__RULESET__,,^emvscriptcheck $EMV_VERIFY_ISSUER_SCRIPT('OPTIONAL')|,,,
+!RULESET:
+!Set EMV transaction values for response
+!Validation rule requirements:
+! - NDS card['EMV_RESP']
+zz__hyosung_api_emv_txn_rsp_default,__RULESET__,,,$EMV_SET_VAL('ISS_AUTH_ARC'; card['EMV_RESP'])|,,FINAL
+zz__hyosung_api_emv_txn_rsp_default,__RULESET__,,,$EMV_SET_VAL('91'; $EMV_ARPC('CREATE_IAuD'))|,,FINAL
+zz__hyosung_api_emv_txn_rsp_default,__RULESET__,,$EMV_CHECK_BER_TLV_LIST(api_def.body.transactionData.emvData; ''; $CONCAT('91'; '71'; '72'))|,,,
+zz__hyosung_api_emv_txn_rsp_default,__RULESET__,,$EMV_SET_VAL('ARC'; $HEX_TO_BINARY($EMV_GET_VAL('ISS_AUTH_ARC')))|,,,
+zz__hyosung_api_emv_txn_rsp_default,__RULESET__,,$ANY_OF($EMV_GET_VAL('ISS_AUTH_ARC'); card['EMV_RESP'])|,,,
+zz__hyosung_api_emv_txn_rsp_default,__RULESET__,,^emvarpccheck $EMV_ARPC('CHECK')|,,,
+zz__hyosung_api_emv_txn_rsp_default,__RULESET__,,^emvscriptcheck $EMV_VERIFY_ISSUER_SCRIPT('OPTIONAL')|,,,
+!RULESET:
+!Set initial EMV values for response
+!Generation rule requirements:
+!  LINKED[0] is original transaction request
+!Validation rule requirements:
+!  LINKED[0] is original transaction request
+zz__hyosung_api_emv_init_rsp_perf,__RULESET__,,,$EMV_SET_VAL('TRACK2'; $EMV_FMT_TRACK2_EQUIV($FLD_FROM_SAVED_MSG('api_def.body.transactionData.track2Data')))|,,
+zz__hyosung_api_emv_init_rsp_perf,__RULESET__,,,$EMV_SET_FROM_BER_TLV_LIST($FLD_FROM_SAVED_MSG('api_def.body.transactionData.emvData'))|,,
+zz__hyosung_api_emv_init_rsp_perf,__RULESET__,,$EMV_SET_FROM_BER_TLV_LIST(linked[0]::api_def.body.transactionData.emvData)|,,,
+zz__hyosung_api_emv_init_rsp_perf,__RULESET__,,$EMV_SET_FROM_BER_TLV_LIST(api_def.body.transactionData.emvData)|,,,
+zz__hyosung_api_emv_init_rsp_perf,__RULESET__,,$EMV_SET_VAL('TRACK2'; $EMV_FMT_TRACK2_EQUIV(linked[0]::api_def.body.transactionData.track2Data))|,,,
+!RULESET:
+!Set EMV transaction values for response
+!Validation rule requirements:
+! - NDS card['EMV_RESP']
+zz__hyosung_api_emv_txn_rsp_perf,__RULESET__,,,$EMV_SET_VAL('ARC'; $HEX_TO_BINARY('0010'))|,,FINAL
+zz__hyosung_api_emv_txn_rsp_perf,__RULESET__,,,$EMV_SET_VAL('ARPC'; $EMV_ARPC('CREATE'))|,,FINAL
+zz__hyosung_api_emv_txn_rsp_perf,__RULESET__,,,$EMV_SET_VAL('ISS_AUTH_ARC'; $BINARY_TO_HEX($EMV_GET_VAL('ARC')))|,,FINAL
+zz__hyosung_api_emv_txn_rsp_perf,__RULESET__,,$EMV_CHECK_BER_TLV_LIST(api_def.body.transactionData.emvData; ''; $CONCAT('91'; '71'; '72'))|,,,
+zz__hyosung_api_emv_txn_rsp_perf,__RULESET__,,$EMV_SET_VAL('ARC'; $HEX_TO_BINARY($EMV_GET_VAL('ISS_AUTH_ARC')))|,,,
+zz__hyosung_api_emv_txn_rsp_perf,__RULESET__,,$ANY_OF($EMV_GET_VAL('ISS_AUTH_ARC'); card['EMV_RESP'])|,,,
+zz__hyosung_api_emv_txn_rsp_perf,__RULESET__,,^emvarpccheck $EMV_ARPC('CHECK')|,,,
+zz__hyosung_api_emv_txn_rsp_perf,__RULESET__,,^emvscriptcheck $EMV_VERIFY_ISSUER_SCRIPT('OPTIONAL')|,,,

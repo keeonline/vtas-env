@@ -1,0 +1,5 @@
+test,step,testAction,station,driver,linkedMsg,valRules,genRules,matchRules,flags
+RECEIVE.PAYMENT_REQUEST,1,CREATE_NDS(CSV_COL_VALUE;'accounts';LOCAL;=account_details;'name';=;'ACME Inc';),,,,,,,
+RECEIVE.PAYMENT_REQUEST,2,CREATE_NDS(PROPERTY_FILE;'json_msg';LOCAL;=json_msgs;),,,,,,,
+RECEIVE.PAYMENT_REQUEST,3,EXPECT(payment_request;),SESS,fandango_api_rsp1,,,,$STATION|,
+RECEIVE.PAYMENT_REQUEST,4,SEND(payment_response;),linked[0]::$SESSION,fandango_api_rsp1,3;,,,,NO_LOAD

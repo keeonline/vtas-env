@@ -1,0 +1,7 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="zz__fandango_api_body_validation"/>
+    <ta:item name="zz__fandango_api_amountTransaction"/>
+    <ta:item name="zz__fandango_api_amountTransaction_linked"/>
+    <ta:item name="payment_request"/>
+    <ta:item name="payment_response"/>
+</ta:file_structure>

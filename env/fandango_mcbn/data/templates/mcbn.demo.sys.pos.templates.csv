@@ -1,0 +1,77 @@
+txnName,logicalTxnName,refMsg,valRules,genRules,matchRules,flags
+!RULESET:
+!0100 request common fields
+!Mastercard switch originated
+!Generation rule requirements:
+!- NDS card['TRACK2']
+!- NDS mcbnacqdriver['INST_ID']
+!- NDS transaction['CCY']
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,mcbn8583_def.msg_type := '0100'|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,mcbn8583_def.de002_primary_ac := card['PAN']|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,mcbn8583_def.de007_transmission_date_time := $CURR_DATE_TIME('%M%D%h%m%s')|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,mcbn8583_def.de011_sys_trace_audit_num := $NEXT_COUNTER('STAN')|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,$PFILE_PUT('STAN'; $CURR_COUNTER('STAN'))|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,mcbn8583_def.de032_acquiring_inst_id := mcbnacqdriver['INST_ID']|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,mcbn8583_def.de037_retrieval_ref := $NUM_RESIZE($NEXT_COUNTER('RRN'; '1'; '0'; '999999999999'); '12')|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,mcbn8583_def.de049_trans_currency := transaction['CCY']|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,,mcbn8583_def.de063_network_data := $CONCAT('MCC'; $NEXT_COUNTER('BN_REF'))|,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,mcbn8583_def.msg_type = '0100'|,,,
+zz__mcbnsys_demo_0100_rq,__RULESET__,,$CHECK_DATE_TIME(mcbn8583_def.de007_transmission_date_time; '%M%D%h%m%s')|,,,
+!RULESET:
+!0100 request authorisation fields
+!Mastercard switch originated
+!Generation rule requirements:
+!- NDS issccy['CCY']
+!- NDS card['ccy']
+zz__mcbnsys_demo_0100_auth_rq,__RULESET__,,,mcbn8583_def.de006_card_billing_amount := $NUM_RESIZE($CCY_AMOUNT_CONV(~mcbn_de004; issccy[transaction['CCY']]); '12')|,,FINAL
+zz__mcbnsys_demo_0100_auth_rq,__RULESET__,,,mcbn8583_def.de015_settle_date := $CURR_DATE_TIME('%M%D')|,,
+zz__mcbnsys_demo_0100_auth_rq,__RULESET__,,,mcbn8583_def.de010_card_billing_conv_rate := issccy[card['CCY']]|,,
+zz__mcbnsys_demo_0100_auth_rq,__RULESET__,,,mcbn8583_def.de016_conv_date := $CURR_DATE_TIME('%M%D')|,,
+zz__mcbnsys_demo_0100_auth_rq,__RULESET__,,,mcbn8583_def.de051_card_billing_currency := card['CCY']|,,
+zz__mcbnsys_demo_0100_auth_rq,__RULESET__,,$CHECK_DATE_TIME(mcbn8583_def.de015_settle_date; '%M%D')|,,,
+zz__mcbnsys_demo_0100_auth_rq,__RULESET__,,$CHECK_DATE_TIME(mcbn8583_def.de016_conv_date; '%M%D')|,,,
+!RULESET:
+!Common POS request fields
+!Mastercard switch originated
+zz__mcbnsys_demo_pos_rq,__RULESET__,,,mcbn8583_def.de012_local_trans_time := $CURR_DATE_TIME('%h%m%s')|,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,,mcbn8583_def.de013_local_trans_date := $CURR_DATE_TIME('%M%D')|,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,,mcbn8583_def.de041_card_acceptor_term_id := terminal['TERMINAL_ID']|,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,,mcbn8583_def.de042_card_acceptor_id_code := terminal['ACCEPTOR_ID']|,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,,mcbn8583_def.de043_card_acceptor_name_loc.f043_def.owner := terminal['ACCEPTOR_NAME']|,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,,mcbn8583_def.de043_card_acceptor_name_loc.f043_def.city := terminal['ACCEPTOR_CITY']|,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,,mcbn8583_def.de043_card_acceptor_name_loc.f043_def.country := terminal['ACCEPTOR_COUNTRY']|,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,,mcbn8583_def.de048_addl_data_private.tcc := 'R'|,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,$CHECK_DATE_TIME(mcbn8583_def.de012_local_trans_time; '%h%m%s')|,,,
+zz__mcbnsys_demo_pos_rq,__RULESET__,,$CHECK_DATE_TIME(mcbn8583_def.de013_local_trans_date; '%M%D')|,,,
+!RULESET:
+!POS keyed card request fields
+!Mastercard switch originated
+zz__mcbnsys_demo_pos_keyed_rq,__RULESET__,,,mcbn8583_def.de014_expiration_date := $EFT_EXPIRY_FROM_TRACK2(card['TRACK2'])|,,
+zz__mcbnsys_demo_pos_keyed_rq,__RULESET__,,,mcbn8583_def.de018_merchant_type := terminal['MCC']|,,
+zz__mcbnsys_demo_pos_keyed_rq,__RULESET__,,,mcbn8583_def.de022_pos_mode := '010'|,,
+zz__mcbnsys_demo_pos_keyed_rq,__RULESET__,,,mcbn8583_def.de061_pos_data.de061_def.de061_11 := '7'|,,
+zz__mcbnsys_demo_pos_keyed_rq,__RULESET__,,,mcbn8583_def.de061_pos_data.de061_def.de061_13 := terminal['TERMINAL_COUNTRY']|,,
+zz__mcbnsys_demo_pos_keyed_rq,__RULESET__,,,mcbn8583_def.de061_pos_data.de061_def.de061_14 := terminal['MERCHANT_POSTCODE']|,,
+zz__mcbnsys_demo_pos_keyed_rq,__RULESET__,,mcbn8583_def.de022_pos_mode = '010'|,,,
+zz__mcbnsys_demo_pos_keyed_rq,__RULESET__,,$ANY_OF(mcbn8583_def.de061_pos_data.de061_def.de061_11; '0'; '2'; '5'; '6'; '7'; '8')|,,,
+!RULESET:
+!POS keyed card request fields
+!Mastercard switch originated
+zz__mcbnsys_demo_pos_cnp_rq,__RULESET__,,,mcbn8583_def.de061_pos_data.de061_def.de061_4 := '1'|,,
+zz__mcbnsys_demo_pos_cnp_rq,__RULESET__,,,mcbn8583_def.de048_addl_data_private.seid92 := card['CVV']|,,
+!Normal purchase keyed card details transaction request
+!Mastercard switch originated
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,,$SET_CURR_DATE_TIME($NOW)|,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,,mcbn8583_def.de003_processing_code := '000000'|,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,,mcbn8583_def.de004_trans_amount := transaction['AMOUNT']|,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,,#INCLUDE(zz__mcbnsys_demo_0100_rq)|,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,,#INCLUDE(zz__mcbnsys_demo_0100_auth_rq)|,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,,#INCLUDE(zz__mcbnsys_demo_pos_rq)|,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,,#INCLUDE(zz__mcbnsys_demo_pos_keyed_rq)|,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,,#INCLUDE(zz__mcbnsys_demo_pos_cnp_rq)|,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,$CHECK_BITMAP('PURCHASE_REQ')|,,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,$ANY_OF($PARTIAL(mcbn8583_def.de003_processing_code; '0'; '2'); '00')|,,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,#INCLUDE(zz__mcbnsys_demo_0100_rq)|,,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,#INCLUDE(zz__mcbnsys_demo_pos_rq)|,,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,#INCLUDE(zz__mcbnsys_demo_pos_keyed_rq)|,,,
+mcbnsys_demo_pos_np_cnp_rq,PURCHASE_REQ,,#INCLUDE(zz__mcbnsys_demo_pos_cnp_rq)|,,,

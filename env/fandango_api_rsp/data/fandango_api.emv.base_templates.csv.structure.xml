@@ -1,0 +1,10 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="zz__hyosung_api_emv_init"/>
+    <ta:item name="zz__hyosung_api_emv_init_req"/>
+    <ta:item name="zz__hyosung_api_emv_txn_req"/>
+    <ta:item name="zz__hyosung_api_emv_init_rsp"/>
+    <ta:item name="zz__hyosung_api_emv_txn_rsp"/>
+    <ta:item name="zz__hyosung_api_emv_txn_rsp_default"/>
+    <ta:item name="zz__hyosung_api_emv_init_rsp_perf"/>
+    <ta:item name="zz__hyosung_api_emv_txn_rsp_perf"/>
+</ta:file_structure>

@@ -1,0 +1,4 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="SEND.PAYMENT_REQUEST_APPROVED"/>
+    <ta:item name="SEND.PAYMENT_REQUEST_DECLINED"/>
+</ta:file_structure>

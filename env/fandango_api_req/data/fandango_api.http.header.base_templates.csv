@@ -1,0 +1,11 @@
+txnName,logicalTxnName,refMsg,valRules,genRules,matchRules,flags
+zz__api_http_header_request_hdr,__RULESET__,,,$MSG_SET('HTTP'; 'HEADER::VALUE::Host'; $CONCAT($ENV_PARAM_GET('drv.host.name')))|,,
+zz__api_http_header_request_hdr,__RULESET__,,,$MSG_SET('HTTP'; 'HEADER::VALUE::Content-Type'; 'application/json')|,,
+zz__api_http_header_request_hdr,__RULESET__,,,$MSG_SET('HTTP'; 'HEADER::VALUE::Connection'; 'keep-alive')|,,
+zz__api_http_header_request_hdr,__RULESET__,,,$MSG_SET('HTTP'; 'HEADER::VALUE::Accept'; '*/*')|,,
+zz__api_http_header_request_hdr,__RULESET__,,,$MSG_SET('HTTP'; 'HEADER::VALUE::Accept-Encoding'; 'gzip,deflate,br')|,,
+zz__api_http_header_request_hdr,__RULESET__,,,$MSG_SET('HTTP'; 'HEADER::VALUE::User-Agent'; 'VersaTest (java)')|,,
+!@ruleDesc Need to save set the PATH and REQUEST_TYPE so that the json field handler can find the correct schema with which to access the field info for the response
+zz__api_http_header_response_hdr,__RULESET__,,,,,
+!@ruleDesc Need to save set the PATH and REQUEST_TYPE so that the json field handler can find the correct schema with which to access the field info for the response
+zz__api_http_header_response_hdr,__RULESET__,,,$MSG_SET('HTTP'; 'HEADER::VALUE::Content-Type'; 'application/json;charset=UTF-8')|,,

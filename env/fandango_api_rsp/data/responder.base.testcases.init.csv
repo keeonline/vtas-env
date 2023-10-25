@@ -1,0 +1,3 @@
+test,step,testAction,station,driver,linkedMsg,valRules,genRules,matchRules,flags
+INIT.JSON.DRIVER,1,EVAL,,fandango_api_rsp1,,,$PFILE_OPEN($ENV_PARAM_GET('drv.pfile.name'))|,,
+INIT.JSON.DRIVER,1,,,,,,$SET_COUNTER($CONCAT($DRIVER_NAME; '_STAN'); $PFILE_GET('STAN'; '1'); '1'; '1'; '999999'; '6'; '10')|,,

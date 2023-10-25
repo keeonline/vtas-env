@@ -1,0 +1,443 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.2.7",
+    "title": "Fandango API",
+    "description": "Combined API for ATM Balance, Debit and Debit Confirm"
+  },
+  "schemes": [
+    "http"
+  ],
+  "host": "fandango.com",
+  "basePath": "/payments",
+  "paths": {
+    "/request": {
+      "post": {
+        "summary": "Queries balances for given accounts.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Payment",
+            "description": "The transaction balance request",
+            "schema": {
+              "$ref": "#/definitions/PaymentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of balances",
+            "schema": {
+              "$ref": "#/definitions/PaymentResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "PaymentRequest" : {
+      "allOf": [
+        {
+          "required": [
+            "messageTypeIdentifier",
+            "primaryAccountNumber",
+            "processingCode",
+            "amountTransaction",
+            "amountCardholderBilling",
+            "transmissionDateAndTime",
+            "systemTraceAuditNumber",
+            "timeLocalTransaction",
+            "dateLocalTransaction",
+            "dateSettlement",
+            "dateConversion",
+            "merchantType",
+            "posEntryModeCode",
+            "acquiringInstitutionIdentificationCode",
+            "retrievalReferenceNumber",
+            "cardAcceptorTerminalIdentification",
+            "cardAcceptorIdentificationCode",
+            "privateUseFields"
+          ]
+        },
+        {
+          "properties" : {
+            "messageTypeIdentifier" : {
+              "$ref": "#/definitions/messageTypeIdentifierDef"
+            },
+            "primaryAccountNumber" : {
+              "$ref": "#/definitions/primaryAccountNumberDef"
+            },
+            "processingCode" : {
+              "$ref": "#/definitions/processingCodeDef"
+            },
+            "amountTransaction" : {
+              "$ref": "#/definitions/amountTransactionDef"
+            },
+            "amountCardholderBilling" : {
+              "$ref": "#/definitions/amountCardholderBillingDef"
+            },
+            "transmissionDateAndTime" : {
+              "$ref": "#/definitions/transmissionDateAndTimeDef"
+            },
+            "systemTraceAuditNumber" : {
+              "$ref": "#/definitions/systemTraceAuditNumberDef"
+            },
+            "timeLocalTransaction" : {
+              "$ref": "#/definitions/timeLocalTransactionDef"
+            },
+            "dateLocalTransaction" : {
+              "$ref": "#/definitions/dateLocalTransactionDef"
+            },
+            "dateSettlement" : {
+              "$ref": "#/definitions/dateSettlementDef"
+            },
+            "dateConversion" : {
+              "$ref": "#/definitions/dateConversionDef"
+            },
+            "merchantType" : {
+              "$ref": "#/definitions/merchantTypeDef"
+            },
+            "posEntryModeCode" : {
+              "$ref": "#/definitions/posEntryModeCodeDef"
+            },
+            "acquiringInstitutionIdentificationCode" : {
+              "$ref": "#/definitions/acquiringInstitutionIdentificationCodeDef"
+            } ,
+            "retrievalReferenceNumber" : {
+              "$ref": "#/definitions/retrievalReferenceNumberDef"
+            },
+            "cardAcceptorTerminalIdentification" : {
+              "$ref": "#/definitions/cardAcceptorTerminalIdentificationDef"
+            },
+            "cardAcceptorIdentificationCode" : {
+              "$ref": "#/definitions/cardAcceptorIdentificationCodeDef"
+            },
+            "privateUseFields" : {
+              "$ref": "#/definitions/privateUseFieldsDef"
+            }
+          }
+        }
+      ]
+    },
+    "PaymentResponse" : {
+      "allOf": [
+        {
+          "required": [
+            "messageTypeIdentifier",
+            "primaryAccountNumber",
+            "processingCode",
+            "amountTransaction",
+            "amountCardholderBilling",
+            "transmissionDateAndTime",
+            "systemTraceAuditNumber",
+            "timeLocalTransaction",
+            "dateLocalTransaction",
+            "dateSettlement",
+            "dateConversion",
+            "merchantType",
+            "posEntryModeCode",
+            "acquiringInstitutionIdentificationCode",
+            "retrievalReferenceNumber",
+            "authorizationIdentificationResponse",
+            "responseCode",
+            "cardAcceptorTerminalIdentification",
+            "privateUseFields"
+          ]
+        },
+        {
+          "properties" : {
+            "messageTypeIdentifier" : {
+              "$ref": "#/definitions/messageTypeIdentifierDef"
+            },
+            "primaryAccountNumber" : {
+              "$ref": "#/definitions/primaryAccountNumberDef"
+            },
+            "processingCode" : {
+              "$ref": "#/definitions/processingCodeDef"
+            },
+            "amountTransaction" : {
+              "$ref": "#/definitions/amountTransactionDef"
+            },
+            "amountCardholderBilling" : {
+              "$ref": "#/definitions/amountCardholderBillingDef"
+            },
+            "transmissionDateAndTime" : {
+              "$ref": "#/definitions/transmissionDateAndTimeDef"
+            },
+            "systemTraceAuditNumber" : {
+              "$ref": "#/definitions/systemTraceAuditNumberDef"
+            },
+            "timeLocalTransaction" : {
+              "$ref": "#/definitions/timeLocalTransactionDef"
+            },
+            "dateLocalTransaction" : {
+              "$ref": "#/definitions/dateLocalTransactionDef"
+            },
+            "dateSettlement" : {
+              "$ref": "#/definitions/dateSettlementDef"
+            },
+            "dateConversion" : {
+              "$ref": "#/definitions/dateConversionDef"
+            },
+            "merchantType" : {
+              "$ref": "#/definitions/merchantTypeDef"
+            },
+            "posEntryModeCode" : {
+              "$ref": "#/definitions/posEntryModeCodeDef"
+            },
+            "acquiringInstitutionIdentificationCode" : {
+              "$ref": "#/definitions/acquiringInstitutionIdentificationCodeDef"
+            } ,
+            "retrievalReferenceNumber" : {
+              "$ref": "#/definitions/retrievalReferenceNumberDef"
+            },
+            "authorizationIdentificationResponse" : {
+              "$ref": "#/definitions/authorizationIdentificationResponseDef"
+            },
+            "responseCode" : {
+              "$ref": "#/definitions/responseCodeDef"
+            },
+            "cardAcceptorTerminalIdentification" : {
+              "$ref": "#/definitions/cardAcceptorTerminalIdentificationDef"
+            },
+            "privateUseFields" : {
+              "$ref": "#/definitions/privateUseFieldsDef"
+            }
+          }
+        }
+      ]
+    },
+    "messageTypeIdentifierDef": {
+      "type": "string"
+    },
+    "primaryAccountNumberDef": {
+      "type": "integer"
+    },
+    "processingCodeDef": {
+      "type": "object",
+      "properties": {
+        "transactionType": {
+          "type": "integer"
+        },
+        "accountTypeFrom": {
+          "type": "integer"
+        },
+        "accountTypeTo": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "transactionType",
+        "accountTypeFrom",
+        "accountTypeTo"
+      ]
+    },
+    "amountTransactionDef": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "currency"
+      ]
+    },
+    "amountCardholderBillingDef": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "currency"
+      ]
+    },
+    "transmissionDateAndTimeDef": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "object",
+          "properties": {
+            "year": {
+              "type": "integer"
+            },
+            "month": {
+              "type": "integer"
+            },
+            "day": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "year",
+            "month",
+            "day"
+          ]
+        },
+        "time": {
+          "type": "object",
+          "properties": {
+            "hour": {
+              "type": "integer"
+            },
+            "minute": {
+              "type": "integer"
+            },
+            "second": {
+              "type": "integer"
+            },
+            "nano": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "hour",
+            "minute",
+            "second",
+            "nano"
+          ]
+        }
+      },
+      "required": [
+        "date",
+        "time"
+      ]
+    },
+    "systemTraceAuditNumberDef": {
+      "type": "integer"
+    },
+    "timeLocalTransactionDef": {
+      "type": "object",
+      "properties": {
+        "hour": {
+          "type": "integer"
+        },
+        "minute": {
+          "type": "integer"
+        },
+        "second": {
+          "type": "integer"
+        },
+        "nano": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "hour",
+        "minute",
+        "second",
+        "nano"
+      ]
+    },
+    "dateLocalTransactionDef": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer"
+        },
+        "month": {
+          "type": "integer"
+        },
+        "day": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "year",
+        "month",
+        "day"
+      ]
+    },
+    "dateSettlementDef": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer"
+        },
+        "month": {
+          "type": "integer"
+        },
+        "day": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "year",
+        "month",
+        "day"
+      ]
+    },
+    "dateConversionDef": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer"
+        },
+        "month": {
+          "type": "integer"
+        },
+        "day": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "year",
+        "month",
+        "day"
+      ]
+    },
+    "merchantTypeDef": {
+      "type": "integer"
+    },
+    "posEntryModeCodeDef": {
+      "type": "object",
+      "properties": {
+        "panEntryMode": {
+          "type": "integer"
+        },
+        "pinEntryMode": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "panEntryMode",
+        "pinEntryMode"
+      ]
+    },
+    "acquiringInstitutionIdentificationCodeDef": {
+      "type": "integer"
+    },
+    "retrievalReferenceNumberDef": {
+      "type": "string"
+    },
+    "authorizationIdentificationResponseDef": {
+      "type": "string"
+    },
+    "responseCodeDef": {
+      "type": "string"
+    },
+    "cardAcceptorTerminalIdentificationDef": {
+      "type": "string"
+    },
+    "cardAcceptorIdentificationCodeDef": {
+      "type": "string"
+    },
+    "privateUseFieldsDef": {
+      "type": "string"
+    }
+  }
+}

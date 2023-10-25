@@ -1,0 +1,3 @@
+DriverTxnType,ReqRspType,ThreadLock,DefaultStruct,CfgTemplate,MandatoryMatchRefs,FieldSpecs,TimerRef
+PaymentRequest,1,Y,api_def,,$STATION,$MSG_GET('HTTP';'REQUEST_TYPE')=POST&&$MSG_GET('HTTP';'PATH')=/payments/request,$SESSION
+Response,2,Y,api_def,,$SESSION&&api_def.body.systemTraceAuditNumber,$MSG_GET('HTTP';'STATUS_CODE')=~\d+,$SESSION

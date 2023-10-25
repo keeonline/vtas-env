@@ -1,0 +1,4 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="zz__api_http_header_request_hdr"/>
+    <ta:item name="zz__api_http_header_response_hdr"/>
+</ta:file_structure>

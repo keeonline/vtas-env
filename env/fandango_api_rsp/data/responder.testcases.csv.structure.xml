@@ -1,0 +1,3 @@
+<ta:file_structure xmlns:ta="http://ascert.com/vt/testactions">
+    <ta:item name="RECEIVE.PAYMENT_REQUEST"/>
+</ta:file_structure>

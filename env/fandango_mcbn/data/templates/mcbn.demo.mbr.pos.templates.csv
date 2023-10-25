@@ -1,0 +1,42 @@
+txnName,logicalTxnName,refMsg,valRules,genRules,matchRules,flags
+!RULESET:
+!0110 response common fields
+!Member originated
+!Validation rule requirements:
+!- LINKED[0] is the original 0100 request
+!
+zz__mcbnmbr_demo_0110_rs,__RULESET__,,,mcbn8583_def.msg_type := '0110'|,,
+zz__mcbnmbr_demo_0110_rs,__RULESET__,,mcbn8583_def.msg_type = '0110'|,,,
+zz__mcbnmbr_demo_0110_rs,__RULESET__,,mcbn8583_def.de002_primary_ac = linked[0]::mcbn8583_def.de002_primary_ac|,,,
+zz__mcbnmbr_demo_0110_rs,__RULESET__,,mcbn8583_def.de003_processing_code = linked[0]::mcbn8583_def.de003_processing_code|,,,
+zz__mcbnmbr_demo_0110_rs,__RULESET__,,$CHECK_DATE_TIME(mcbn8583_def.de007_transmission_date_time; '%M%D%h%m%s')|,,,
+zz__mcbnmbr_demo_0110_rs,__RULESET__,,mcbn8583_def.de011_sys_trace_audit_num = linked[0]::mcbn8583_def.de011_sys_trace_audit_num|,,,
+zz__mcbnmbr_demo_0110_rs,__RULESET__,,mcbn8583_def.de032_acquiring_inst_id = linked[0]::mcbn8583_def.de032_acquiring_inst_id|,,,
+zz__mcbnmbr_demo_0110_rs,__RULESET__,,mcbn8583_def.de049_trans_currency = linked[0]::mcbn8583_def.de049_trans_currency|,,,
+!RULESET:
+!0110 response authorisation fields
+!Member originated
+zz__mcbnmbr_demo_0110_auth_rs,__RULESET__,,$CHECK_DATE_TIME(mcbn8583_def.de015_settle_date; '%M%D')|,,,
+zz__mcbnmbr_demo_0110_auth_rs,__RULESET__,,$CHECK_DATE_TIME(mcbn8583_def.de016_conv_date; '%M%D')|,,,
+!RULESET:
+!Common POS response fields
+!Member originated
+!Validation rule requirements:
+!  LINKED[0] is the original transaction request
+zz__mcbnmbr_demo_pos_rs,__RULESET__,,mcbn8583_def.de037_retrieval_ref = linked[0]::mcbn8583_def.de037_retrieval_ref|,,,
+!Purchase keyed card details transaction response
+!Member originated
+!Validation rule requirements:
+!  LINKED[0] is the original purchase keyed card details transaction request
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,linked[0],,$SET_CURR_DATE_TIME($NOW)|,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,,$MASK_RSP_BITMAPS('PURCHASE_RSP')|,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,,mcbn8583_def.de039_response_code := '00'|,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,,#INCLUDE(zz__mcbnmbr_demo_0110_rs)|,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,,#INCLUDE(zz__mcbnmbr_demo_0110_auth_rs)|,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,,#INCLUDE(zz__mcbnmbr_demo_pos_rs)|,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,,mcbn8583_def.de048_addl_data_private.seid87 := 'M'|,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,$CHECK_BITMAP('PURCHASE_RSP')|,,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,mcbn8583_def.de004_trans_amount = linked[0]::mcbn8583_def.de004_trans_amount|,,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,#INCLUDE(zz__mcbnmbr_demo_0110_rs)|,,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,#INCLUDE(zz__mcbnmbr_demo_0110_auth_rs)|,,,
+mcbnmbr_demo_pos_np_cnp_rs,PURCHASE_RSP,,#INCLUDE(zz__mcbnmbr_demo_pos_rs)|,,,

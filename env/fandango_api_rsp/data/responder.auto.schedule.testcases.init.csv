@@ -1,0 +1,8 @@
+test,step,testAction,station,driver,linkedMsg,valRules,genRules,matchRules,flags
+INIT.JSON.AUTO.SCHEDULE_ALL,1,EVAL,,fandango_api_rsp1,,,,,
+INIT.JSON.AUTO.SCHEDULE_ALL,2,SCHEDULE('RECEIVE.PAYMENT_REQUEST_AUTO';),,,,,,,
+RECEIVE.PAYMENT_REQUEST_AUTO,1,CREATE_NDS(CSV_COL_VALUE;'accounts';LOCAL;=account_details;'name';=;'ACME Inc';),,,,,,,
+RECEIVE.PAYMENT_REQUEST_AUTO,2,CREATE_NDS(PROPERTY_FILE;'json_msg';LOCAL;=json_msgs;),,,,,,,
+RECEIVE.PAYMENT_REQUEST_AUTO,3,EXPECT(payment_request;DEFAULT_HANDLER;),SESS,fandango_api_rsp1,,,,$STATION|,
+RECEIVE.PAYMENT_REQUEST_AUTO,5,SCHEDULE('RECEIVE.PAYMENT_REQUEST_AUTO';),,,,,,,
+RECEIVE.PAYMENT_REQUEST_AUTO,4,SEND(payment_response;),linked[0]::$SESSION,fandango_api_rsp1,3;,,,,NO_LOAD

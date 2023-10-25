@@ -1,0 +1,5 @@
+test,step,testAction,station,driver,linkedMsg,valRules,genRules,matchRules,flags
+INIT.JSON.DRIVER,1,EVAL,,fandango_api_req1,,$PFILE_OPEN($ENV_PARAM_GET('drv.pfile.name'))|,,,
+!   Report on any unexpected messages,,,,,,,
+DRV.BASE.TEST_CLEAN,1,UNEXPECTED_MSG(),,fandango_api_req1,,,,,
+DRV.BASE.TEST_CLEAN,2,CANCEL_EXPECT(),,fandango_api_req1,,,,,
