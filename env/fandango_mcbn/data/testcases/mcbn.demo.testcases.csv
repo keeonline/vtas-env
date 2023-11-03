@@ -12,6 +12,6 @@ MCBN.DEMO.PURCHASE.KEYED.DECLINED,2,CREATE_NDS(CSV_COL_VALUE;'card';LOCAL;=mcbn_
 MCBN.DEMO.PURCHASE.KEYED.DECLINED,3,CREATE_NDS(CSV_COL_VALUE;'terminal';LOCAL;=mcbn_terminals;'NAME';=;transaction['TERMINAL'];),,,,,,,
 MCBN.DEMO.PURCHASE.KEYED.DECLINED,4,CREATE_NDS(CSV_COL_VALUE;'issccy';LOCAL;=currency;'CCnnn';=;card['CCY'];),,,,,,,
 MCBN.DEMO.PURCHASE.KEYED.DECLINED,5,SEND(mcbnsys_demo_pos_np_cnp_rq;),MCBN,mcbn_sys,,,,,
-MCBN.DEMO.PURCHASE.KEYED.DECLINED,6,EXPECT(mcbnmbr_pos_man_prchs_rsp;),linked[0]::$SESSION,mcbn_sys,5;,mcbn8583_def.de039_response_code = transaction['ISO.RESP.CODE']|,,,
+MCBN.DEMO.PURCHASE.KEYED.DECLINED,6,EXPECT(mcbnmbr_pos_man_prchs_rsp;),linked[0]::$SESSION,mcbn_sys,5;,mcbn8583_def.de039_response_code = '51'|,,,
 MCBN.DEMO.PURCHASE.KEYED.DECLINED,6,,,,,,,$SESSION|,
 MCBN.DEMO.PURCHASE.KEYED.DECLINED,6,,,,,,,mcbn8583_def.de011_sys_trace_audit_num = linked[0]::mcbn8583_def.de011_sys_trace_audit_num|,
