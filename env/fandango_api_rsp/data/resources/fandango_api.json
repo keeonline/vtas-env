@@ -11,7 +11,7 @@
   "host": "fandango.com",
   "basePath": "/payments",
   "paths": {
-    "/request": {
+    "/requests": {
       "post": {
         "summary": "Queries balances for given accounts.",
         "consumes": [

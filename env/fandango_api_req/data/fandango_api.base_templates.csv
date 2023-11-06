@@ -4,7 +4,7 @@ zz__fandango_api_amountTransaction,__RULESET__,,,$SET_API_FIELD(^~1.amount; ~2)|
 zz__fandango_api_amountTransaction,__RULESET__,,,~1.currency := ~3|,,
 zz__fandango_api_amountTransaction_linked,__RULESET__,,,$SET_API_FIELD(^~1.amount; ^~2.amount)|,,
 zz__fandango_api_amountTransaction_linked,__RULESET__,,,~1.currency := ~2.currency|,,
-payment_request,PaymentRequest,,,$DVALUE_SET($DRIVER_NAME; 'TXN_PATH'; '/payments/request')|,,INITIAL
+payment_request,PaymentRequest,,,$DVALUE_SET($DRIVER_NAME; 'TXN_PATH'; '/payments/requests')|,,INITIAL
 payment_request,PaymentRequest,,,$SET_CURR_DATE_TIME($NOW)|,,
 payment_request,PaymentRequest,,,#INCLUDE(zz__api_request_hdr)|,,
 payment_request,PaymentRequest,,,api_def.body := json_msg['PaymentRequest']|,,INITIAL
@@ -44,7 +44,7 @@ payment_request,PaymentRequest,,,api_def.body.retrievalReferenceNumber := '09070
 payment_request,PaymentRequest,,,api_def.body.cardAcceptorTerminalIdentification := 'ABCDEFGH'|,,
 payment_request,PaymentRequest,,,api_def.body.cardAcceptorIdentificationCode := 'ABCDEFGH0123456'|,,
 payment_request,PaymentRequest,,,api_def.body.privateUseFields := 'MCC123456789'|,,
-payment_request,PaymentRequest,,$DVALUE_SET($DRIVER_NAME; 'TXN_PATH'; '/payments/request')|,,,INITIAL
+payment_request,PaymentRequest,,$DVALUE_SET($DRIVER_NAME; 'TXN_PATH'; '/payments/requests')|,,,INITIAL
 payment_request,PaymentRequest,,#INCLUDE(zz__api_request_hdr)|,,,
 payment_request,PaymentRequest,,#INCLUDE(zz__fandango_api_body_validation)|,,,
 payment_request,PaymentRequest,,,,$STATION|,
